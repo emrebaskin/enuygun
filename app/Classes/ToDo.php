@@ -7,9 +7,16 @@ namespace App\Classes;
 use App\Interfaces\ToDoInterface;
 use App\Models\ToDo as ToDoModel;
 
-
+/**
+ * Class ToDo
+ * @package App\Classes
+ */
 class ToDo implements ToDoInterface
 {
+
+    /**
+     * @param  array  $toDoList
+     */
     public static function add(array $toDoList = [])
     {
         foreach ($toDoList as $todo) {
@@ -25,11 +32,11 @@ class ToDo implements ToDoInterface
         }
     }
 
-    public static function get()
-    {
-        return ToDoModel::all();
-    }
-
+    /**
+     * @param  array  $developerList
+     *
+     * @return array|string
+     */
     public static function getWeeklyPlan(array $developerList = [])
     {
         $developerTasks = self::associateWithDevelopers($developerList);
@@ -44,6 +51,11 @@ class ToDo implements ToDoInterface
         return $developerTasks;
     }
 
+    /**
+     * @param  array  $developerList
+     *
+     * @return array|string
+     */
     private static function associateWithDevelopers(array $developerList = [])
     {
         $tasks = ToDoModel::orderBy('time', 'desc')->get();
@@ -85,7 +97,13 @@ class ToDo implements ToDoInterface
 
     }
 
-    private static function findDeveloperLevelForTask($developers, $level)
+    /**
+     * @param  array  $developers
+     * @param  int  $level
+     *
+     * @return int
+     */
+    private static function findDeveloperLevelForTask(array $developers, int $level)
     {
 
         $developer = $developers[$level];
@@ -113,6 +131,11 @@ class ToDo implements ToDoInterface
 
     }
 
+    /**
+     * @param  array  $tasks
+     *
+     * @return array
+     */
     private static function groupByWeek(array $tasks = [])
     {
 
@@ -180,6 +203,11 @@ class ToDo implements ToDoInterface
 
     }
 
+    /**
+     * @param  array  $developerTasks
+     *
+     * @return int
+     */
     public static function getDeadline(array $developerTasks = [])
     {
 
@@ -196,8 +224,4 @@ class ToDo implements ToDoInterface
         return $deadlineWeeks;
     }
 
-    public static function estimatedTime()
-    {
-        dd('kalan süre hesaplancak');
-    }
 }
